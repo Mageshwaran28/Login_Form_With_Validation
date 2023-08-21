@@ -2,16 +2,26 @@ function get(ele){
     return document.querySelector(ele);
 }
 
+function clear(){
+    email.value = '';
+    pwd.value = '';
+    emailVal='';
+    passwordVal='';
+    email.parentNode.className = "input-group email-group";
+    pwd.parentNode.className = "input-group password-group";
+    res1.style.display = 'none';
+}
+
 let email = get('.email');
 let pwd = get('.password');
 let signin = get('.signin');
 let google = get('.google-signin-group');
-let forgot1 = get('.forgot');
+let forgot1 = get('form .forgot');
 let signup = get('.signup-group');
 let result1 = get('.result');
 let error = get('.error');
 let closeIcon = get('.result i');
-let res1 = get('.signin-group > span');
+let res1 = get('.signin-group span');
 let emailError = '';
 let pwdError = '';
 const regEx = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
@@ -42,14 +52,11 @@ const users =[
 
 let emailVal="";
 let passwordVal="";
+
 email.addEventListener('input', (event) => {
     emailVal = event.target.value;
 
-    if(emailError=='Empty' && emailVal!=""){
-        email.parentNode.className = "input-group email-group";
-        emailError='';
-    }
-    else if(emailError=='Invalid' && regEx.test(emailVal)==true){
+    if((emailError=='Empty' && emailVal!="") || (emailError=='Invalid' && regEx.test(emailVal)==true)){
         email.parentNode.className = "input-group email-group";
         emailError='';
     }
@@ -82,7 +89,6 @@ function emailValidation(){
     }
 
     if(errorMsg==''){
-        email.parentNode.className = "input-group email-group success";
         email.nextElementSibling.innerHTML = errorMsg;
         return true;  
     }
@@ -121,7 +127,6 @@ function pwdValidation(){
     }
 
     if(errorMsg==''){
-        pwd.parentNode.className = "input-group password-group success";
         pwd.nextElementSibling.innerHTML = errorMsg;
         return true;
     }
@@ -135,20 +140,57 @@ function pwdValidation(){
 
 }
 
-signin.addEventListener('click', (event)=>{
+signin.addEventListener( 'click', (event)=> {
     event.preventDefault();
     let bool = emailValidation();
     let bool1 = pwdValidation();
 
     if(bool && bool1){
         res1.style.display = 'block';
+
+        if(signin.value == 'Back to Login'){
+            clear();
+            signin.value = 'Sign In';
+            get('form.forgot .header-group h1').innerHTML = 'Welcome back';
+            get('form.forgot .header-group span').innerHTML = 'Welcome back! Please enter your details';
+            get('form.forgot .password-group label').innerHTML = 'password';
+            get('form.forgot .password-group input').placeholder = 'Enter your password';
+            get('form.forgot .rem-for-group').style.display = '';
+            get('form.forgot .google-signin-group').style.display = '';
+            get('form.forgot .signup-group').style.display = '';
+            return;
+        }
+
+        if(signin.value == 'Change Password'){
+            for (let index = 0; index < users.length; index++) {
+                if(users[index].email == emailVal){
+                    users[index].pwd = passwordVal;
+                    email.parentNode.className = "input-group email-group success";
+                    pwd.parentNode.className = "input-group password-group success";
+                    res1.innerHTML = 'Updated Successfully'
+                    res1.className = 'res';
+                    signin.value = 'Back to Login';
+                    return;
+                }
+            }
+             email.parentNode.className = "input-group email-group";
+            pwd.parentNode.className = "input-group password-group";
+            res1.className='res error';
+            res1.innerHTML = 'Invalid User Identification';
+            return;
+        }
+
         for(let user of users){
             if(emailVal==user.email && passwordVal==user.pwd){
+                email.parentNode.className = "input-group email-group success";
+                pwd.parentNode.className = "input-group password-group success";
                 res1.innerHTML = 'Logged in successfully'
                 res1.className = 'res';
                 return;
             }
         }
+        email.parentNode.className = "input-group email-group";
+        pwd.parentNode.className = "input-group password-group";
         res1.className='res error'
         res1.innerHTML = 'Invalid credentials'
     }
@@ -175,7 +217,15 @@ google.addEventListener('click',()=>{
 })
 
 forgot1.addEventListener('click',()=>{
-    resultPopup("result process","","fa-solid fa-rotate")
+    clear();
+    get('form.forgot .header-group h1').innerHTML = 'Reset Password';
+    get('form.forgot .header-group span').innerHTML = 'Enter your new password and try again';
+    get('form.forgot .password-group label').innerHTML = 'New password';
+    get('form.forgot .password-group input').placeholder = 'Enter new password';
+    get('form.forgot .rem-for-group').style.display = 'none';
+    get('form.forgot .google-signin-group').style.display = 'none';
+    get('form.forgot .signup-group').style.display = 'none';
+    signin.value = 'Change Password';
 })
 
 signup.addEventListener('click',()=>{
