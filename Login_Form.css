@@ -53,7 +53,8 @@ section{
 }
 
 .login-form form input[type="email"]:focus,input[type="password"]:focus{
-    outline: 1px solid #000;
+    border-color: #4099ff;
+    outline: none;
 }
 
 
@@ -157,14 +158,9 @@ section .side-logo .blur{
     color: #fff;
 }
 
-.result.success{
-    background-color: #66ff66;
-}
+
 .result.process{
     background-color: #ffa64d;
-}
-.result.failure{
-    background-color: #ff1a1a;
 }
 
 .result i{
@@ -173,15 +169,11 @@ section .side-logo .blur{
     border-radius: 5px;
 }
 
-.result.success i:hover{
-    background-color: #00e600;
-}
+
 .result.process i:hover{
     background-color: #e67300;
 }
-.result.failure i:hover{
-    background-color: #cc0000;
-}
+
 
 .result .res-group{
     display: flex;
@@ -211,4 +203,108 @@ section .side-logo .blur{
 
 .result.process .res-group .error{
     display: none;
+}
+
+.login-form form input[type="text"]{
+    position: relative !important;
+}
+
+.email-group .error,
+.password-group .error{
+    display: none;
+}
+
+.email-group.error input ,
+ .password-group.error input{
+    border-color: #ff5370 !important;
+ }
+
+.email-group.success input ,
+ .password-group.success input{
+    border-color: #00e600 !important;
+ }
+
+ .email-group.error .error ,
+ .password-group.error .error{
+    display: block;
+    font-size: x-small;
+    margin-top: 5px;
+    color: #ff5370;
+}
+
+.email-group ,
+.password-group
+{
+    height: 80px;
+}
+
+.signin-group{
+    height: 70px;
+}
+
+.login-form form .input-group.signin-group{
+    position: relative;
+}
+
+
+.login-form form .input-group.signin-group{
+    display: flex;    
+    gap: 10px;
+}
+.signin-group span{
+    display: none;
+    text-align: center;
+    color: #00e600;
+}
+
+.signin-group .res.error{
+    color: #ff5370;
+}
+
+.password-group{
+    position: relative;
+}
+
+ #info{
+    font-size: small;
+    padding: 3px 5px;
+    border-radius: 4px;
+    color: #000;
+    position: absolute;
+    right: 0px;
+    top: 5px;
+    cursor: pointer;
+}
+
+#info .pwd-info{
+    position: relative;
+}
+
+#info div svg{
+    color: #999;
+}
+
+#info  .pwd-info .strong-pwd {
+    display: none;
+    position: absolute;
+    right: 20px;
+    width: 150px;
+    top: -110px;
+    background-color: #c0c0c0;
+    color: #fff;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+#info .pwd-info .strong-pwd h4{
+    margin: 0;
+}
+
+#info .pwd-info .strong-pwd ul{
+    padding-left: 0;
+    list-style: none;
+}
+
+#info:hover .strong-pwd{
+    display: block;
 }
